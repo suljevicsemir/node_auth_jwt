@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const app = express();
 
-
+app.use(express.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+
+
 
 const dbURL = "mongodb+srv://semir:pa6Brnzq4VrgGxg@cluster0.xrc1d.mongodb.net/net_ninja?retryWrites=true&w=majority";
 
