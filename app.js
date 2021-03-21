@@ -17,7 +17,8 @@ const PORT = process.env.PORT || 5000;
 
 mongoose.connect("mongodb+srv://semir:pa6Brnzq4VrgGxg@cluster0.xrc1d.mongodb.net/net_ninja?retryWrites=true&w=majority", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 })
 .then((result) => {
     console.log('Connected to database!');
