@@ -1,6 +1,6 @@
-const { response } = require('express');
 const User = require('../models/User');
 
+const jwt = require('jsonwebtoken');
 
 const handleErrors = (err) => {
     let errors = {email: '', password: ''};
@@ -22,6 +22,13 @@ const handleErrors = (err) => {
 }
 
 
+const maxAge = 3 * 24 * 60 * 60;
+
+const createToken = (id) => {
+    return jwt.sign({id}, 'this is a secret', {
+        expiresIn: maxAge
+    });
+}
 
 module.exports.signup_get = (req, res) => {
     res.render('signup');
@@ -40,7 +47,14 @@ module.exports.signup_post = async (req, res) => {
             email,
             password
         });
-        res.status(201).json(user);
+        
+        const token = createToken(user._id);
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            maxAge: maxAge * 1000
+        });
+
+        res.status(201).json({ user: user._id});
     }
     catch(err) {
         const errors = handleErrors(err);
@@ -51,6 +65,10 @@ module.exports.signup_post = async (req, res) => {
 
 
 module.exports.login_post = (req, res) => {
+    const {email, password} = req.body;
+
     
+
+
     res.send('user login');
 }
